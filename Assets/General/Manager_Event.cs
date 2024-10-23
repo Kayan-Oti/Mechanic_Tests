@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public static class Manager_Event
@@ -21,6 +22,8 @@ public static class Manager_Event
         public GenericEvent<ChangingScene> OnChanginScene = new GenericEvent<ChangingScene>();
         public class LoadedScene: UnityEvent {}
         public GenericEvent<LoadedScene> OnLoadedScene = new GenericEvent<LoadedScene>();
+        public class ChangeCurrentSelectedUI: UnityEvent<GameObject> {}
+        public GenericEvent<ChangeCurrentSelectedUI> OnChangeCurrentSelectedUI = new GenericEvent<ChangeCurrentSelectedUI>();
     }
 
     public class DialogueEvents{
