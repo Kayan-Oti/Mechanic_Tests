@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_Button : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler,ISubmitHandler
+public class UI_Button : UI_Abstract_Selectable, IPointerEnterHandler, IPointerExitHandler, ISubmitHandler
 {
 
     protected virtual void OnClickEvent(){
@@ -17,15 +17,19 @@ public class UI_Button : MonoBehaviour, IPointerEnterHandler, ISelectHandler, ID
     {
         eventData.selectedObject = gameObject;
     }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        eventData.selectedObject = null;
+    }
 
-    public void OnSelect(BaseEventData eventData)
+    protected override void OnSelectDo(BaseEventData eventData)
     {
         OnEnterEvent();
         Vector3 scale  = new Vector3(1.25f, 1.25f, 1);
         transform.DOScale(scale, 0.25f);
     }
 
-    public void OnDeselect(BaseEventData eventData)
+   protected override void OnDeselectDo(BaseEventData eventData)
     {
         transform.DOScale(Vector3.one, 0.25f);
     }
@@ -34,4 +38,5 @@ public class UI_Button : MonoBehaviour, IPointerEnterHandler, ISelectHandler, ID
     {
         OnClickEvent();
     }
+
 }

@@ -7,10 +7,10 @@ public class PlayerInputManager_TopDown : MonoBehaviour
 {
     [SerializeField] private Interactor _playerInteractor;
     public static Vector2 MOVEMENT;
-    private PlayerTopDown playerInputActions;
+    private MainInputSystem playerInputActions;
 
     private void Awake(){
-        playerInputActions = new PlayerTopDown();
+        playerInputActions = new MainInputSystem();
         playerInputActions.Player.Interact.performed += Interact;
     }
 

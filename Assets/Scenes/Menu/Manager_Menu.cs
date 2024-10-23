@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,13 +12,12 @@ public class Manager_Menu : MonoBehaviour
     [Header("Containers")]
     [SerializeField] private GameObject _settingsContainer;
 
-
     private void OnEnable() {
         Manager_Event.GameManager.OnLoadedScene.Get().AddListener(OnLoadScene);
     }
 
     private void OnDisable() {
-        Manager_Event.GameManager.OnLoadedScene.Get().AddListener(OnLoadScene);
+        Manager_Event.GameManager.OnLoadedScene.Get().RemoveListener(OnLoadScene);
     }
 
     private void Start(){
