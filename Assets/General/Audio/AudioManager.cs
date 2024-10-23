@@ -8,11 +8,13 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
+    //Sliders Values
     [Range(0, 1)] public float masterVolume = 1;
     [Range(0, 1)] public float musicVolume = 1;
     [Range(0, 1)] public float ambienceVolume = 1;
     [Range(0, 1)] public float sfxVolume = 1;
 
+    //Mixers
     private Bus masterBus;
     private Bus musicBus;
     private Bus ambienceBus;

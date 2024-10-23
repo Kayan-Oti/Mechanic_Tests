@@ -21,7 +21,7 @@ public class PlayerMovement_TopDown : MonoBehaviour
     private void Awake(){
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _interactor = GetComponent<Interactor>();
+        _interactor = GetComponentInChildren<Interactor>();
     }
 
     private void OnEnable() {

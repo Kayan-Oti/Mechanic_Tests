@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_SliderVolume : MonoBehaviour
@@ -15,9 +16,11 @@ public class UI_SliderVolume : MonoBehaviour
     [Header("Type")]
     [SerializeField] private VolumeType _volumeType = VolumeType.Master;
     private Slider _volumeSlider;
+    private Image _background;
 
     private void Start(){
         _volumeSlider = GetComponentInChildren<Slider>();
+        _background = GetComponent<Image>();
         UpdateSliders();
     }
 
@@ -54,5 +57,15 @@ public class UI_SliderVolume : MonoBehaviour
                 break;
         }
         AudioManager.Instance.UpdateVolume();
+    }
+
+    public void OnSelect()
+    {
+        _background.color = new Color(100f/255f, 80f/255f, 80f/255f);
+    }
+
+    public void OnDeselect()
+    {
+        _background.color = new Color(30f/255f, 30f/255f, 30f/255f);
     }
 }
