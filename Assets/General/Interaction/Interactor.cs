@@ -1,35 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
-    [SerializeField] private Transform _interactionPoint;
-    [SerializeField] private float _interactionPointRadius = 0.5f;
-    [SerializeField] private LayerMask _interactableMask;
-    private readonly Collider2D[] _colliders = new Collider2D[3];
-    [SerializeField] private int _numFound;
+    private List<IInteractable> _interactablesInRange = new List<IInteractable>();
+
+    [ReadOnly] private int _numInteractablesInRange = 0;
     private bool _canInteract = true;
 
-    private void Update(){
+    public void TryInteract(){
         if(!_canInteract)
             return;
 
-        _numFound = Physics2D.OverlapCircleNonAlloc(_interactionPoint.position, _interactionPointRadius, _colliders, _interactableMask);
+        IInteractable interactable = null;
 
-        if(_numFound > 0){
-            IInteractable interactable = _colliders[0].GetComponent<IInteractable>();
-            
-            if(interactable != null && Keyboard.current.eKey.wasPressedThisFrame){
-                interactable.Interact();
-            }
+        //Try Gets a interactable in Range
+        while(_interactablesInRange.Count > 0){
+            interactable = _interactablesInRange[0];
+
+            if(interactable.CanInteract())
+                break;
+
+            _interactablesInRange.Remove(interactable);
+        }
+
+        //If no interactables left in Range
+        if(_interactablesInRange.Count == 0)
+            return;
+
+        interactable.Interact(this);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        _numInteractablesInRange++;
+        IInteractable interactable = other.GetComponent<IInteractable>();
+
+        if(interactable != null){
+            if(!interactable.CanInteract())
+                return;
+            interactable.SetIsInRange(true);
+            _interactablesInRange.Add(interactable);
         }
     }
 
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_interactionPoint.position, _interactionPointRadius);
+    private void OnTriggerExit2D(Collider2D other) {
+        _numInteractablesInRange--;
+        IInteractable interactable = other.GetComponent<IInteractable>();
+
+        if(_interactablesInRange.Contains(interactable)){
+            interactable.SetIsInRange(false);
+            _interactablesInRange.Remove(interactable);
+        }
     }
 
     public void SetInteractState(bool state){

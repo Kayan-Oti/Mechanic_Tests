@@ -38,12 +38,12 @@ public class Manager_Dialogue : MonoBehaviour
 
     private IEnumerator StartDialogueCoroutine(){
         ResetText();
-        
         _button.SetActive(true);
+
         //Wait Animation End
         yield return _animationManager.PlayAnimation("Start");
         _isDialogueActive = true;
-
+        
         //Display name
         _nameText.text = _dialogue.Name;
 
@@ -73,8 +73,7 @@ public class Manager_Dialogue : MonoBehaviour
     }
 
     [ButtonMethod]
-    public void DisplayNextParagraph(){
-
+    private void DisplayNextParagraph(){
         //Exception: No more paragraphs, Dialogue End
         if(_paragraphs.Count == 0 && !_isTyping){
             EndDialogue();

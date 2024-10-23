@@ -5,18 +5,29 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputManager_TopDown : MonoBehaviour
 {
-    private PlayerInput _playerInput;
-    private InputAction _moveAction;
-
+    [SerializeField] private Interactor _playerInteractor;
     public static Vector2 MOVEMENT;
+    private PlayerTopDown playerInputActions;
 
     private void Awake(){
-        _playerInput = GetComponent<PlayerInput>();
-        _moveAction = _playerInput.actions["Movement"];
+        playerInputActions = new PlayerTopDown();
+        playerInputActions.Player.Interact.performed += Interact;
+    }
+
+    private void OnEnable(){
+        playerInputActions.Player.Enable();
+    }
+
+    private void OnDisable(){
+        playerInputActions.Player.Disable();
     }
 
     private void Update(){
-        MOVEMENT = _moveAction.ReadValue<Vector2>();
+        MOVEMENT = playerInputActions.Player.Movement.ReadValue<Vector2>();
+    }
+
+    private void Interact(InputAction.CallbackContext context){
+        _playerInteractor.TryInteract();
     }
 
 }
