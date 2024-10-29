@@ -35,6 +35,9 @@ public class UI_ManagerAnimation : MonoBehaviour
     public struct AnimationsList{
         [Tooltip("Name used to Filter")]
         public string name;
+        [Space(5)]
+        public bool useUnascaleTime;
+
         [Space(10)]
         public List<Animation> animations;
     }
@@ -60,8 +63,12 @@ public class UI_ManagerAnimation : MonoBehaviour
         yield return animation;
         _countCoroutines--;
     }
+    
+    public void PlayAnimation(string nameFilter, Action DoLast = null){
+        StartCoroutine(PlayAnimationCoroutine(nameFilter, DoLast));
+    }
 
-    public IEnumerator PlayAnimation(string nameFilter, Action DoLast = null)
+    public IEnumerator PlayAnimationCoroutine(string nameFilter, Action DoLast = null)
     {
         //Creates or Active animation
         if(!ActiveAnimation(nameFilter))
@@ -81,13 +88,13 @@ public class UI_ManagerAnimation : MonoBehaviour
             }
             //Play Animation, WaitingEnd or Not
             if(animation.waitAnimationEnd)
-                yield return animation.target.StartAnimation(animation.SOAnimation, animation.enableInteractable, animation.enableVisibility);
+                yield return animation.target.StartAnimation(animation.SOAnimation, animation.enableInteractable, animation.enableVisibility, animationsList.useUnascaleTime);
             else
-                 StartCoroutine(CountCoroutine(animation.target.StartAnimation(animation.SOAnimation, animation.enableInteractable, animation.enableVisibility)));
+                 StartCoroutine(CountCoroutine(animation.target.StartAnimation(animation.SOAnimation, animation.enableInteractable, animation.enableVisibility, animationsList.useUnascaleTime)));
             
             //Delay before next
             if(animation.hasDelay)
-                yield return DelayAnimation(animation, nameFilter);
+                yield return DelayAnimation(animation, nameFilter, animationsList.useUnascaleTime);
         }
         
         //Wait all animations to End
@@ -102,9 +109,9 @@ public class UI_ManagerAnimation : MonoBehaviour
     /// <summary>
     /// Alternative version of a WaitForSeconds, that can be break
     /// </summary>
-    private IEnumerator DelayAnimation(Animation animation, string nameFilter){
+    private IEnumerator DelayAnimation(Animation animation, string nameFilter, bool isUnscaleTime){
         //Alternative WaitForSeconds
-        for(float timer = animation.delaySeconds; timer >= 0; timer -= Time.deltaTime){
+        for(float timer = animation.delaySeconds; timer >= 0; timer -= isUnscaleTime ? Time.unscaledTime:Time.deltaTime){
             //Skip Delay if !Activity
             if(!_animationActivity[nameFilter])
                 yield break;

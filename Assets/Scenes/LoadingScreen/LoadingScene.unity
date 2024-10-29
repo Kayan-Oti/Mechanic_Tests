@@ -333,7 +333,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_TargetDisplay: 0
 --- !u!1 &1041136724
 GameObject:
@@ -413,6 +413,50 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!1 &1162238435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1162238437}
+  - component: {fileID: 1162238436}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1162238436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162238435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 796f8bf60e404e442b96b9fc13ebe3f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1162238437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162238435}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1248076157
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,6 +796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _listAnimations:
   - name: Start
+    useUnascaleTime: 1
     animations:
     - name: Box
       enableInteractable: 1
@@ -762,10 +807,11 @@ MonoBehaviour:
       target: {fileID: 130353339}
       SOAnimation: {fileID: 11400000, guid: 9eacbdbbabdd97f4fabdd5df58276277, type: 2}
   - name: End
+    useUnascaleTime: 1
     animations:
     - name: Box
-      enableInteractable: 1
-      enableVisibility: 1
+      enableInteractable: 0
+      enableVisibility: 0
       waitAnimationEnd: 0
       hasDelay: 0
       delaySeconds: 0
@@ -866,3 +912,4 @@ SceneRoots:
   - {fileID: 2067720438}
   - {fileID: 1041136727}
   - {fileID: 2362238360349456504}
+  - {fileID: 1162238437}

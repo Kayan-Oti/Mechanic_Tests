@@ -22,13 +22,13 @@ public class Manager_Menu : MonoBehaviour
 
     private void Start(){
         EventSystem.current.SetSelectedGameObject(_playButton);
+        _settingsContainer.SetActive(false);
     }
 
     #region Scene Management
     private void OnLoadScene() {
         //Play Song Menu
         AudioManager.Instance.InitializeMusic(FMODEvents.Instance.MenuMusic, MusicIntensity.Intensity3);
-        _settingsContainer.SetActive(false);
     }
 
     private void LeavingMenu(){

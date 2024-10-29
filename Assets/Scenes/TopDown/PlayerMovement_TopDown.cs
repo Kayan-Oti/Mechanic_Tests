@@ -8,7 +8,6 @@ public class PlayerMovement_TopDown : MonoBehaviour
     private Vector2 _movement;
     private Rigidbody2D _rigidbody;
     private bool _canMove = true;
-    private Interactor _interactor;
 
     //Animation
     private Animator _animator;
@@ -21,7 +20,6 @@ public class PlayerMovement_TopDown : MonoBehaviour
     private void Awake(){
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _interactor = GetComponentInChildren<Interactor>();
     }
 
     private void OnEnable() {
@@ -55,10 +53,8 @@ public class PlayerMovement_TopDown : MonoBehaviour
 
     private void DisableMovement(){
         _canMove = false;
-        _interactor.SetInteractState(false);
     }
     private void EnableMovement(){
         _canMove = true;
-        _interactor.SetInteractState(true);
     }
 }

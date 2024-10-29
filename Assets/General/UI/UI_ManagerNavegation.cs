@@ -5,14 +5,21 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 
-public class InputMangerUI : MonoBehaviour
+public class UI_ManagerNavegation : MonoBehaviour
 {
-    private GameObject _currentSelected;
+    
+    //Inputs
     private MainInputSystem _inputActions;
+    private InputAction _navigateUI;
 
+    //Variables
+    private GameObject _currentSelected;
+
+    #region Setup
     private void Awake(){
-        _inputActions = new MainInputSystem();
-        _inputActions.UI.Navigate.performed += CheckSelectedUI;
+        _inputActions = InputManager.playerInputActions;
+
+        _navigateUI = _inputActions.UI.Navigate;
     }
 
     private void OnEnable() {
@@ -26,14 +33,23 @@ public class InputMangerUI : MonoBehaviour
 
         Manager_Event.GameManager.OnChangeCurrentSelectedUI.Get().RemoveListener(ChangeCurrentSelectedUI);
     }
+    #endregion
+
+    private void Update(){
+        if(_navigateUI.WasPerformedThisFrame())
+            CheckSelectedUI();
+    }
+
+    #region Do
 
     private void ChangeCurrentSelectedUI(GameObject current){
         _currentSelected = current;
     }
 
-    private void CheckSelectedUI(InputAction.CallbackContext context){
-        if(EventSystem.current.currentSelectedGameObject == null){
+    private void CheckSelectedUI(){
+        if(EventSystem.current.currentSelectedGameObject == null)
             EventSystem.current.SetSelectedGameObject(_currentSelected);
-        }
     }
+
+    #endregion
 }

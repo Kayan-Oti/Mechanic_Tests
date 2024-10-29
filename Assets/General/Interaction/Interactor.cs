@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
     private List<IInteractable> _interactablesInRange = new List<IInteractable>();
-
     [ReadOnly] private int _numInteractablesInRange = 0;
     private bool _canInteract = true;
 
