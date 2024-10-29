@@ -9,12 +9,12 @@ public class LoadingScreen : MonoBehaviour
 
     public IEnumerator OnStartLoadScene(){
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.LoadingScreenStart);
-        yield return StartCoroutine(_animation.PlayAnimation("Start"));
+        yield return _animation.PlayAnimationCoroutine("Start");
         yield return null;
     }
 
     public void OnEndLoadScene(Action DoLast){
         AudioManager.Instance.PlayOneShot(FMODEvents.Instance.LoadingScreenEnd);
-        StartCoroutine(_animation.PlayAnimation("End", DoLast));
+        _animation.PlayAnimation("End", DoLast);
     }
 }

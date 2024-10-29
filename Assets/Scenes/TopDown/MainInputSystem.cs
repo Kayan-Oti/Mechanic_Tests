@@ -630,6 +630,45 @@ public partial class @MainInputSystem: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Commom"",
+            ""id"": ""9679e4fa-2ffd-468f-8745-390c50d58329"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""e83d339e-7c9a-4e31-9959-900dc825ee78"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""42200c30-47fe-4d9d-896e-f35001eaff6b"",
+                    ""path"": ""*/{Menu}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f0df952-3b67-4a77-8465-b715b93eb2c3"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -650,6 +689,9 @@ public partial class @MainInputSystem: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Commom
+        m_Commom = asset.FindActionMap("Commom", throwIfNotFound: true);
+        m_Commom_Pause = m_Commom.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -879,6 +921,52 @@ public partial class @MainInputSystem: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Commom
+    private readonly InputActionMap m_Commom;
+    private List<ICommomActions> m_CommomActionsCallbackInterfaces = new List<ICommomActions>();
+    private readonly InputAction m_Commom_Pause;
+    public struct CommomActions
+    {
+        private @MainInputSystem m_Wrapper;
+        public CommomActions(@MainInputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_Commom_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_Commom; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CommomActions set) { return set.Get(); }
+        public void AddCallbacks(ICommomActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CommomActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CommomActionsCallbackInterfaces.Add(instance);
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+        }
+
+        private void UnregisterCallbacks(ICommomActions instance)
+        {
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+        }
+
+        public void RemoveCallbacks(ICommomActions instance)
+        {
+            if (m_Wrapper.m_CommomActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICommomActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CommomActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CommomActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CommomActions @Commom => new CommomActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -896,5 +984,9 @@ public partial class @MainInputSystem: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface ICommomActions
+    {
+        void OnPause(InputAction.CallbackContext context);
     }
 }

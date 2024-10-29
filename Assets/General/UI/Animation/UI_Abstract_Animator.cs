@@ -46,7 +46,7 @@ public abstract class UI_Abstract_Animator : MonoBehaviour
         _canvasGroup.alpha = state ? 1f : 0f;
     }
 
-    public IEnumerator StartAnimation(SO_Animation animationSO, bool enableInteractable, bool enableVisibility, Action DoLast = null){
+    public IEnumerator StartAnimation(SO_Animation animationSO, bool enableInteractable, bool enableVisibility, bool useUnascaleTime, Action DoLast = null){
         ConvertSO(animationSO);
 
         //Before animation
@@ -56,7 +56,7 @@ public abstract class UI_Abstract_Animator : MonoBehaviour
 
         //Animation
         _animationTween = GetTween();
-        yield return _animationTween.WaitForCompletion();
+        yield return _animationTween.SetUpdate(useUnascaleTime).WaitForCompletion();
 
         //After Animation
         SetInteractable(enableInteractable);
@@ -91,8 +91,7 @@ public abstract class UI_Abstract_Animator : MonoBehaviour
     }
 
     public void CompleteAnimation(){
-        if(_animationTween.IsActive()){
+        if(_animationTween.IsActive())
             _animationTween.Complete();
-        }
     }
 }

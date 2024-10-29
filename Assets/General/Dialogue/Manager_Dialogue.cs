@@ -41,7 +41,7 @@ public class Manager_Dialogue : MonoBehaviour
         _button.SetActive(true);
 
         //Wait Animation End
-        yield return _animationManager.PlayAnimation("Start");
+        yield return _animationManager.PlayAnimationCoroutine("Start");
         _isDialogueActive = true;
         
         //Display name
@@ -61,7 +61,7 @@ public class Manager_Dialogue : MonoBehaviour
         _isDialogueActive = false;
 
         //Ao terminar a animação Invoke OnEndDialogue Event
-        StartCoroutine(_animationManager.PlayAnimation("End",() => Manager_Event.DialogueManager.OnEndDialogue.Get().Invoke()));
+        _animationManager.PlayAnimation("End",() => Manager_Event.DialogueManager.OnEndDialogue.Get().Invoke());
     }
 
     public void Onclick(){

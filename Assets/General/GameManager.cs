@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         _scenesLoading.Add(SceneManager.LoadSceneAsync(_currentSceneIndex, LoadSceneMode.Additive));
 
         //Tempo minimo de espera
-        yield return new WaitForSeconds(MIN_WAITSECONDS_LOADSCREEN);
+        yield return new WaitForSecondsRealtime(MIN_WAITSECONDS_LOADSCREEN);
 
         //Wait loading
         yield return WaitLoading();
@@ -59,13 +59,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WaitLoading(){
         for(int i = 0; i<_scenesLoading.Count; i++){
-            while(!_scenesLoading[i].isDone){
+            while(!_scenesLoading[i].isDone)
                 yield return null;
-            }
         }
     }
 
     private void OnSceneLoaded(){
+        Time.timeScale = 1.0f;
         //Animação ao terminar de Carrega
         _loadingScreen.OnEndLoadScene(InvokeOnLoadedScene);
     }
