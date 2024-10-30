@@ -60,8 +60,9 @@ public class Manager_Dialogue : MonoBehaviour
         _button.SetActive(false);
         _isDialogueActive = false;
 
-        //Ao terminar a animação Invoke OnEndDialogue Event
-        _animationManager.PlayAnimation("End",() => Manager_Event.DialogueManager.OnEndDialogue.Get().Invoke());
+        //Libera o player assim que começa a animação
+        _animationManager.PlayAnimation("End");
+        Manager_Event.DialogueManager.OnEndDialogue.Get().Invoke();
     }
 
     public void Onclick(){

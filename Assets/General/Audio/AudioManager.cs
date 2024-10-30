@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
+using MyBox;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Singleton<AudioManager>
 {
-    public static AudioManager Instance { get; private set; }
-
     //Sliders Values
     [Range(0, 1)] public float masterVolume = 1;
     [Range(0, 1)] public float musicVolume = 1;
@@ -26,10 +25,6 @@ public class AudioManager : MonoBehaviour
     private EventInstance _musicEventInstance;
 
     private void Awake(){
-        if(Instance != null)
-            Debug.LogError("AudioManager Instance not null");
-        
-        Instance = this;
         _eventInstances = new List<EventInstance>();
         _eventEmitters = new List<StudioEventEmitter>();
 

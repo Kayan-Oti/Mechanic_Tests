@@ -41,4 +41,9 @@ public class PauseManager : MonoBehaviour
         else
             UnpauseGame();
     }
+
+    //Button Action
+    public void BackToMenu(){
+        GameManager.Instance.LoadScene(SceneIndex.Menu);
+    }
 }

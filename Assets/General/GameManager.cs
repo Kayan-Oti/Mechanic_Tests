@@ -1,22 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    [HideInInspector] public static GameManager Instance;
     [SerializeField] private LoadingScreen _loadingScreen;
+    [SerializeField] private bool _loadSceneOnStart = true;
     private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
     private int _currentSceneIndex;
-    private const float MIN_WAITSECONDS_LOADSCREEN = 1f;
+    private const float MIN_WAITSECONDS_LOADSCREEN = 0.75f;
 
     #region Initial Setup
-    private void Awake() {
-        if(Instance == null)
-            Instance = this;
-
-        StartCoroutine(FirstScene(SceneIndex.Menu));
+    private void Start() {
+        if(_loadSceneOnStart)
+            StartCoroutine(FirstScene(SceneIndex.Menu));
     }
 
     //Method similar to LoadScene, but without animation

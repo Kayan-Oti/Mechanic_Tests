@@ -1,7 +1,8 @@
 using UnityEngine;
 using FMODUnity;
+using MyBox;
 
-public class FMODEvents : MonoBehaviour
+public class FMODEvents : Singleton<FMODEvents>
 {
     // [field: Header("Temp")]
     // [field: SerializeField] public EventReference temp { get; private set;}
@@ -16,12 +17,4 @@ public class FMODEvents : MonoBehaviour
     [field: Header("LoadingScreen")]
     [field: SerializeField] public EventReference LoadingScreenStart { get; private set;}
     [field: SerializeField] public EventReference LoadingScreenEnd { get; private set;}
-
-
-    public static FMODEvents Instance { get; private set;}
-
-    private void Awake(){
-        if(Instance == null)
-            Instance = this;
-    }
 }
