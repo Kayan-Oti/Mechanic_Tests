@@ -22,20 +22,20 @@ public class Coin : MonoBehaviour
 
         Vector3 startPoint = transform.position;
         Vector3 peakPoint = startPoint + new Vector3(3, 2, 0);   // pico da parábola
-        Vector3 endPoint = startPoint + new Vector3(5, -5, 0);    // ponto final
+        Vector3 endPoint = startPoint + new Vector3(5, -3, 0);    // ponto final
 
         Vector3[] path = new Vector3[] {startPoint, peakPoint, endPoint};
         
         Sequence animation = DOTween.Sequence();
         
         animation.Insert(0, transform.DOPath(path, ANIMATION_TIME, PathType.CatmullRom)
-            .SetEase(Ease.InSine)
+            .SetEase(Ease.OutSine)
         );
-        animation.Insert(0, transform.DOScaleZ(0f, ANIMATION_TIME)
-            .SetEase(Ease.InSine)
+        animation.Insert(0, transform.DOScale(0f, ANIMATION_TIME)
+            .SetEase(Ease.OutSine)
         );
         animation.Insert(0, _image.DOFade(0f, ANIMATION_TIME)
-            .SetEase(Ease.InSine)
+            .SetEase(Ease.OutSine)
         );
 
         animation.OnComplete(() => {
