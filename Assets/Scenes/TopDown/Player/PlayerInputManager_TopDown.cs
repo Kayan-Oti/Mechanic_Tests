@@ -14,14 +14,14 @@ public class PlayerInputManager_TopDown : MonoBehaviour
 
     private void OnEnable(){
         playerInputActions.Player.Enable();
-            Manager_Event.DialogueManager.OnStartDialogue.Get().AddListener(DisableInteraction);
-        Manager_Event.DialogueManager.OnEndDialogue.Get().AddListener(EnableInteraction);
+        Manager_Event.InteractionManager.OnStartInteraction.Get().AddListener(DisableInteraction);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().AddListener(EnableInteraction);
     }
 
     private void OnDisable(){
         playerInputActions.Player.Disable();
-        Manager_Event.DialogueManager.OnStartDialogue.Get().RemoveListener(DisableInteraction);
-        Manager_Event.DialogueManager.OnEndDialogue.Get().RemoveListener(EnableInteraction);
+        Manager_Event.InteractionManager.OnStartInteraction.Get().RemoveListener(DisableInteraction);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().RemoveListener(EnableInteraction);
     }
 
     private void Update(){

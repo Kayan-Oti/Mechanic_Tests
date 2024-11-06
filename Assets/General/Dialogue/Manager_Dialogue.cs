@@ -32,7 +32,7 @@ public class Manager_Dialogue : MonoBehaviour
 
     public void StartDialogue(SO_Dialogue dialogue){
         _dialogue = dialogue;
-        Manager_Event.DialogueManager.OnStartDialogue.Get().Invoke();
+        Manager_Event.InteractionManager.OnStartInteraction.Get().Invoke();
         StartCoroutine(StartDialogueCoroutine());
     }
 
@@ -62,7 +62,7 @@ public class Manager_Dialogue : MonoBehaviour
 
         //Libera o player assim que começa a animação
         _animationManager.PlayAnimation("End");
-        Manager_Event.DialogueManager.OnEndDialogue.Get().Invoke();
+        Manager_Event.InteractionManager.OnEndInteraction.Get().Invoke();
     }
 
     public void Onclick(){
