@@ -21,15 +21,14 @@ public class PlayerMovement_TopDown : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
-
-    private void OnEnable() {
-        Manager_Event.DialogueManager.OnStartDialogue.Get().AddListener(DisableMovement);
-        Manager_Event.DialogueManager.OnEndDialogue.Get().AddListener(EnableMovement);
+    private void OnEnable(){
+        Manager_Event.InteractionManager.OnStartInteraction.Get().AddListener(DisableMovement);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().AddListener(EnableMovement);
     }
 
-    private void OnDisable() {
-        Manager_Event.DialogueManager.OnStartDialogue.Get().RemoveListener(DisableMovement);
-        Manager_Event.DialogueManager.OnEndDialogue.Get().RemoveListener(EnableMovement);
+    private void OnDisable(){
+        Manager_Event.InteractionManager.OnStartInteraction.Get().RemoveListener(DisableMovement);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().RemoveListener(EnableMovement);
     }
 
     private void Update(){

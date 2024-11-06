@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public static class Manager_Event
 {
     public static readonly GameEvents GameManager = new GameEvents();
-    public static readonly DialogueEvents DialogueManager = new DialogueEvents();
+    public static readonly InteractionEvents InteractionManager = new InteractionEvents();
 
     public class GenericEvent<T> where T: class, new()
     {
@@ -26,10 +26,10 @@ public static class Manager_Event
         public GenericEvent<ChangeCurrentSelectedUI> OnChangeCurrentSelectedUI = new GenericEvent<ChangeCurrentSelectedUI>();
     }
 
-    public class DialogueEvents{
+    public class InteractionEvents{
         public class StartDialogueEvent: UnityEvent {}
-        public GenericEvent<StartDialogueEvent> OnStartDialogue = new GenericEvent<StartDialogueEvent>();
+        public GenericEvent<StartDialogueEvent> OnStartInteraction = new GenericEvent<StartDialogueEvent>();
         public class EndDialogueEvent: UnityEvent {}
-        public GenericEvent<EndDialogueEvent> OnEndDialogue = new GenericEvent<EndDialogueEvent>();
+        public GenericEvent<EndDialogueEvent> OnEndInteraction = new GenericEvent<EndDialogueEvent>();
     }
 }
