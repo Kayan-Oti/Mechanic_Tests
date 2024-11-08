@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using MyBox;
+using System;
 
 public class Manager_Dialogue : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Manager_Dialogue : MonoBehaviour
     [SerializeField] private GameObject _button;
     [SerializeField] private float typeSpeed = 1;
     private SO_Dialogue _dialogue;
+    private Action _onEndDialogueAction;
 
     private Queue<string> _paragraphs = new Queue<string>();
     private Coroutine _typeDialogueCoroutine;
@@ -30,9 +32,9 @@ public class Manager_Dialogue : MonoBehaviour
         _dialogueText.text = "";
     }
 
-    public void StartDialogue(SO_Dialogue dialogue){
+    public void StartDialogue(SO_Dialogue dialogue, Action onEndDialogueAction){
         _dialogue = dialogue;
-        Manager_Event.InteractionManager.OnStartInteraction.Get().Invoke();
+        _onEndDialogueAction  = onEndDialogueAction;
         StartCoroutine(StartDialogueCoroutine());
     }
 
@@ -40,7 +42,7 @@ public class Manager_Dialogue : MonoBehaviour
         ResetText();
         _button.SetActive(true);
 
-        //Wait Animation End
+        //Wait Animation "Start" end
         yield return _animationManager.PlayAnimationCoroutine("Start");
         _isDialogueActive = true;
         
@@ -60,9 +62,8 @@ public class Manager_Dialogue : MonoBehaviour
         _button.SetActive(false);
         _isDialogueActive = false;
 
-        //Libera o player assim que começa a animação
-        _animationManager.PlayAnimation("End");
-        Manager_Event.InteractionManager.OnEndInteraction.Get().Invoke();
+        //Libera o player ao terminar a animação
+        _animationManager.PlayAnimation("End", ()  => _onEndDialogueAction?.Invoke());
     }
 
     public void Onclick(){

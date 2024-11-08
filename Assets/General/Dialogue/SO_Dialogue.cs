@@ -4,6 +4,7 @@ using UnityEngine;
 public class SO_Dialogue : ScriptableObject
 {
     public string Name;
+    public bool loop;
     [TextArea(5,10)]
     public string[] Paragraphs;
 }

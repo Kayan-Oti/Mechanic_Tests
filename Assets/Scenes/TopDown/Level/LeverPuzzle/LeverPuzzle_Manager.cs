@@ -52,6 +52,6 @@ public class LeverPuzzle_Manager : MonoBehaviour
     }
 
     public void OnActiveLever(){
-        _lever.ExitLeverPuzzle();
+        _lever.ExitLeverPuzzle(_isCompleted);
     }
 }

@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class Interactor : MonoBehaviour
 {
     private List<IInteractable> _interactablesInRange = new List<IInteractable>();
     [ReadOnly] private int _numInteractablesInRange = 0;
     private bool _canInteract = true;
+
+    private void OnEnable(){
+        Manager_Event.InteractionManager.OnStartInteraction.Get().AddListener(DisableInteraction);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().AddListener(EnableInteraction);
+    }
+
+    private void OnDisable(){
+        Manager_Event.InteractionManager.OnStartInteraction.Get().RemoveListener(DisableInteraction);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().RemoveListener(EnableInteraction);
+    }
 
     public void TryInteract(){
         if(!_canInteract)
@@ -30,6 +41,16 @@ public class Interactor : MonoBehaviour
             return;
 
         interactable.Interact(this);
+    }
+    public void SetInteractState(bool state){
+        _canInteract = state;
+    }
+
+    private void DisableInteraction(){
+        SetInteractState(false);
+    }
+    private void EnableInteraction(){
+        SetInteractState(true);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -54,7 +75,4 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    public void SetInteractState(bool state){
-        _canInteract = state;
-    }
 }

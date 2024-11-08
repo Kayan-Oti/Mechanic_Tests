@@ -18,13 +18,19 @@ public abstract class Abstract_Interactable : MonoBehaviour, IInteractable
         if(!CanInteract())
             return;
 
-        _canInteract = _loop;
-        SetInteractionText(_loop);
-
+        Manager_Event.InteractionManager.OnStartInteraction.Get().Invoke();
         InteractionAction();
     }
 
+    public void EndInteraction()
+    {
+        Manager_Event.InteractionManager.OnEndInteraction.Get().Invoke();
+        CanInteract();
+        SetInteractionText(_canInteract);
+    }
+
     public virtual bool CanInteract(){
+        _canInteract = HasMoreInteraction();
         return _canInteract;
     }
 
@@ -40,4 +46,6 @@ public abstract class Abstract_Interactable : MonoBehaviour, IInteractable
     }
 
     protected abstract void InteractionAction();
+    protected abstract bool HasMoreInteraction();
+
 }
