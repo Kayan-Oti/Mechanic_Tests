@@ -7,6 +7,7 @@ public class LeverPuzzle : Abstract_Interactable
 {
     [SerializeField] private GameObject _puzzleObject;
     [SerializeField] private TransitionController _controller;
+    private bool _isPuzzleCompleted = false;
 
     protected override void Start()
     {
@@ -16,14 +17,19 @@ public class LeverPuzzle : Abstract_Interactable
 
     protected override void InteractionAction()
     {
-        Manager_Event.InteractionManager.OnStartInteraction.Get().Invoke();
         AnimationTransition(true);
     }
+    protected override bool HasMoreInteraction()
+    {
+        return !_isPuzzleCompleted;
+    }
 
-    public void ExitLeverPuzzle(){
+    public void ExitLeverPuzzle(bool hasCompletedPuzzle){
+        _isPuzzleCompleted = hasCompletedPuzzle;
+
         AnimationTransition(
             false,
-            () => Manager_Event.InteractionManager.OnEndInteraction.Get().Invoke()
+            () => EndInteraction()
         );
     }
 
@@ -33,4 +39,5 @@ public class LeverPuzzle : Abstract_Interactable
             _controller.FadeOut(doLast);
         });
     }
+
 }
