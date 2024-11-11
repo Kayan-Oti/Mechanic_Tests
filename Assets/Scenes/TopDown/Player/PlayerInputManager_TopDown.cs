@@ -5,19 +5,24 @@ using UnityEngine;
 public class PlayerInputManager_TopDown : MonoBehaviour
 {
     [SerializeField] private Interactor _playerInteractor;
-    public static Vector2 MOVEMENT;
     private MainInputSystem playerInputActions;
+    public static Vector2 MOVEMENT;
+    public static bool INTERACT;
 
     private void Awake(){
         playerInputActions = InputManager.playerInputActions;
     }
 
     private void OnEnable(){
-        playerInputActions.Player.Enable();
+        EnableInput();
+        Manager_Event.InteractionManager.OnStartInteraction.Get().AddListener(DisableInput);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().AddListener(EnableInput);
     }
 
     private void OnDisable(){
-        playerInputActions.Player.Disable();
+        DisableInput();
+        Manager_Event.InteractionManager.OnStartInteraction.Get().RemoveListener(DisableInput);
+        Manager_Event.InteractionManager.OnEndInteraction.Get().RemoveListener(EnableInput);
     }
 
     private void Update(){
@@ -25,13 +30,13 @@ public class PlayerInputManager_TopDown : MonoBehaviour
         MOVEMENT = playerInputActions.Player.Movement.ReadValue<Vector2>();
 
         //Interaction
-        if(playerInputActions.Player.Interact.WasPerformedThisFrame())
-            Interact();
+        INTERACT = playerInputActions.Player.Interact.WasPressedThisFrame();
     }
 
-    private void Interact(){
-        _playerInteractor.TryInteract();
+    private void EnableInput(){
+        playerInputActions.Player.Enable();
     }
-
-
+    private void DisableInput(){
+        playerInputActions.Player.Disable();
+    }
 }
